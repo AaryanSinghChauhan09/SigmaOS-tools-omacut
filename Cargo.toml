@@ -1,0 +1,14 @@
+[package]
+name = "sigmaos-tools-omacut"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "sigmaos_tools_omacut"
+path = "src/lib.rs"
+
+[[bin]]
+name = "omacut"
+path = "src/main.rs"
+
+[dependencies]
