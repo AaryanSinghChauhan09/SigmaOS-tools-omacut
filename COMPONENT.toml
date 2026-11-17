@@ -3,7 +3,7 @@ name = "SigmaOS-tools-omacut"
 tier = 2
 stability = "scaffold"
 language = "rust"
-description = "tools-omacut component"
+description = "SigmaOS Tools omacut - Video and audio trimming engine (omacom/omacut parity)"
 upstream = []
 
 [contract]
