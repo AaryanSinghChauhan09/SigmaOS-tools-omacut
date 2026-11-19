@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 //! omacut - Video and audio trimming engine for SigmaOS
 
 use std::path::PathBuf;
@@ -91,5 +92,48 @@ impl TrimQueue {
 impl Default for TrimQueue {
     fn default() -> Self {
         Self::new()
+    }
+}
+
+
+#[cfg(test)]
+mod oma_cut_tests {
+    use super::*;
+
+    #[test]
+    fn test_job_duration_calculation_aaa() {
+        // Arrange
+        let start = TimeCode::new(0, 1, 0, 0);
+        let end = TimeCode::new(0, 1, 45, 500);
+        let job = TrimJob::new("/in.mp4", "/out.mp4", start, end).unwrap();
+        // Act
+        let duration = job.duration_ms();
+        // Assert
+        assert_eq!(duration, 45500);
+    }
+
+    #[test]
+    fn test_empty_path_validation_aaa() {
+        // Arrange
+        let start = TimeCode::new(0, 0, 0, 0);
+        let end = TimeCode::new(0, 0, 10, 0);
+        // Act
+        let res1 = TrimJob::new("", "/out.mp4", start.clone(), end.clone());
+        let res2 = TrimJob::new("/in.mp4", "", start, end);
+        // Assert
+        assert!(res1.is_err());
+        assert!(res2.is_err());
+    }
+
+    #[test]
+    fn test_timecode_zero_boundaries_aaa() {
+        // Arrange
+        let tc = TimeCode::new(0, 0, 0, 0);
+        // Act
+        let ms = tc.to_milliseconds();
+        let from = TimeCode::from_milliseconds(0);
+        // Assert
+        assert_eq!(ms, 0);
+        assert_eq!(from, tc);
     }
 }
